@@ -1,0 +1,1615 @@
+{
+  "info": {
+    "_postman_id": "45948453-fa53-46e3-a8cf-f1c9f9581440",
+    "name": "1 ShopperStack collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43832342"
+  },
+  "item": [
+    {
+      "name": "1 Shoppers Profile",
+      "item": [
+        {
+          "name": "1 Register Shoppers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"--------------- 🛒 Registration Proccess ----------------\", function () {\r",
+                  "    console.log(\"--------------- 🛒 Registration Proccess ----------------\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "pm.test(\"Registered User - 409 Conflict\", function () {\r",
+                  "    pm.response.to.have.status(409);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Registered User - Duplicate email validation\", function () {\r",
+                  "    let jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data).to.include(\"already used\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"city\": \"Navi Mumbai\",\r\n  \"country\": \"india\",\r\n  \"email\": \"sourabh123@gmail.com\",\r\n  \"firstName\": \"sourabh\",\r\n  \"gender\": \"MALE\",\r\n  \"lastName\": \"kurde\",\r\n  \"password\": \"bornin@shoopers\",\r\n  \"phone\": 9773732753,\r\n  \"state\": \"MH\",\r\n  \"zoneId\": \"ALPHA\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 Shoppers login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"--------------- 🛒 Login Process ----------------\", function () {\r",
+                  "    console.log(\"--------------- 🛒 Login Process ----------------\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Login Successful\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "let body = pm.response.json();\r",
+                  "let token=body.data.jwtToken;\r",
+                  "pm.environment.set(\"token\", token);\r",
+                  "\r",
+                  "pm.test(\"Token Generated Successfully\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "let userId = body.data.userId; \r",
+                  "pm.environment.set(\"shopperId\", userId);\r",
+                  "\r",
+                  "\r",
+                  "pm.test(\"Shopper ID Set Successfully\", function () {\r",
+                  " pm.response.to.have.status(200);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"sksourabh07@gmail.com\",\r\n  \"password\": \"bornin@Shopper5\",\r\n  \"role\": \"SHOPPER\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/users/login",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2 Product View Action",
+      "item": [
+        {
+          "name": "3 Returns all default products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"--------------- 🛒 Products View ----------------\", function () {\r",
+                  "    console.log(\"--------------- 🛒 Products View ----------------\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Get list of all default products\", function () {\r",
+                  "    pm.response.to.have.status(200); });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/products/alpha",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "products",
+                "alpha"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 Get all Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let body=pm.response.json();\r",
+                  "let prodid=body.data[0].productId;\r",
+                  "pm.environment.set(\"productId\", prodid);\r",
+                  "\r",
+                  "pm.test(\"Get list of all products\", function () {\r",
+                  "    pm.response.to.have.status(200); });\r",
+                  "\r",
+                  "pm.test(\"Environment - ProductId created & set - ''Value = 51''\", function () {\r",
+                  "    pm.response.to.have.status(200); });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/products?zoneId=ALPHA",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "zoneId",
+                  "value": "ALPHA"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3 Wishlist",
+      "item": [
+        {
+          "name": "5 Add product to wishlist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"-------------------- 🛒 Wishlist --------------------\", function () {\r",
+                  "    console.log(\"Wishlist folder execution started\");\r",
+                  "});\r",
+                  "\r",
+                  "/*pm.test(\"ProductId - 51 - Added \", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"ProductId - 51 - Already Present \", function () {\r",
+                  "    pm.response.to.have.status(409);\r",
+                  "});\r",
+                  "\r",
+                  "*/\r",
+                  "\r",
+                  "const statusCode = pm.response.code;\r",
+                  "\r",
+                  "if (statusCode === 201) {\r",
+                  "    pm.test(\"ProductId - 51 - Added to Wishlist successfully\", function () {\r",
+                  "        pm.response.to.have.status(201);\r",
+                  "    });\r",
+                  "} else if (statusCode === 409) {\r",
+                  "    pm.test(\"ProductId - 51 - Already Present in Wishlist\", function () {\r",
+                  "        pm.response.to.have.status(409);\r",
+                  "    });\r",
+                  "} else {\r",
+                  "    pm.test(\"ProductId - 51 - Unexpected Status Code: \" + statusCode, function () {\r",
+                  "        pm.fail(\"Expected 201 or 409, but got \" + statusCode);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/wishlist",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "wishlist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 Get all products from wishlist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Get list of all products present in the wishlist\", function () {\r",
+                  "    pm.response.to.have.status(200); });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/wishlist",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "wishlist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7 Delete a product from wishlist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  "\r",
+                  "const statusCode = pm.response.code;\r",
+                  "\r",
+                  "if (statusCode === 204) {\r",
+                  "    pm.test(\"ProductId - 51 - Deleted from Wishlist \", function () {\r",
+                  "        pm.response.to.have.status(204);\r",
+                  "    });\r",
+                  "} else if (statusCode === 404) {\r",
+                  "    pm.test(\"ProductId - 51 - Not Exist in Wishlist\", function () {\r",
+                  "        pm.response.to.have.status(404);\r",
+                  "    });\r",
+                  "} else {\r",
+                  "    pm.test(\"ProductId - 51 - Unexpected Status Code: \" + statusCode, function () {\r",
+                  "        pm.fail(\"Expected 201 or 409, but got \" + statusCode);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/wishlist/{{productId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "wishlist",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4 Shopper Cart",
+      "item": [
+        {
+          "name": "8 Add product to cart - itemid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"--------------- 🛒 Shopper Cart Testing Started----------------\", function () {\r",
+                  "    console.log(\"Shopper Cart folder execution started\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "let body=pm.response.json();\r",
+                  "let item=body.data.itemId;\r",
+                  "pm.environment.set(\"itemId\", item);\r",
+                  "\r",
+                  "pm.test(\" Environment Created - itemId \", function () {\r",
+                  "    pm.response.to.have.status(201); });\r",
+                  "\r",
+                  "//let item1=body.data[1].itemId1;\r",
+                  "//pm.environment.set(\"itemId1\", item);\r",
+                  "\r",
+                  "const statusCode = pm.response.code;\r",
+                  "\r",
+                  "if (statusCode === 201) {\r",
+                  "    pm.test(\"ProductId - 51 - Added to Cart successfully\", function () {\r",
+                  "        pm.response.to.have.status(201);\r",
+                  "    });\r",
+                  "} else if (statusCode === 409) {\r",
+                  "    pm.test(\"ProductId - 51 - Already Present in Cart\", function () {\r",
+                  "        pm.response.to.have.status(409);\r",
+                  "    });\r",
+                  "} else {\r",
+                  "    pm.test(\"ProductId - 51 - Unexpected Status Code: \" + statusCode, function () {\r",
+                  "        pm.fail(\"Expected 201 or 409, but got \" + statusCode);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/carts",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "9 Get all products from cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  "\r",
+                  "/*\r",
+                  "    let response = pm.response.json();\r",
+                  "    let cartData = response.data;\r",
+                  "    console.log(cartData);\r",
+                  "    console.log(cartData.length); \r",
+                  "*/\r",
+                  "\r",
+                  "let cartData = pm.response.json(); \r",
+                  "let dataCount = cartData.data;\r",
+                  "\r",
+                  "//console.log(dataCount.length);\r",
+                  "\r",
+                  "if (dataCount.length > 0) {\r",
+                  "\r",
+                  "let quantity = dataCount[0].quantity;\r",
+                  "\r",
+                  "pm.test(\"ProductId - 51 - ✅ Product Quantity :  \" + quantity + \" - Displayed In Cart\" , function () {\r",
+                  "    console.log(dataCount[0].quantity);\r",
+                  "});\r",
+                  "} \r",
+                  "else {\r",
+                  "pm.test(\"ProductId - 51 - ✅ Product Quantity - Zero\" , function () {\r",
+                  "    console.log(dataCount.length); }); \r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/carts",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10 Update product in cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"ProductId - 51 - Quantity Updated  \", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": 100\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/carts/{{itemId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "carts",
+                "{{itemId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11 Get all products from cart Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let cartData = pm.response.json(); \r",
+                  "let dataCount = cartData.data;\r",
+                  "\r",
+                  "//console.log(dataCount.length);\r",
+                  "\r",
+                  "if (dataCount.length > 0) {\r",
+                  "\r",
+                  "let quantity = dataCount[0].quantity;\r",
+                  "\r",
+                  "pm.test(\"ProductId - 51 - ✅ Product Quantity :  \" + quantity + \" - Displayed In Cart\" , function () {\r",
+                  "    console.log(dataCount[0].quantity);\r",
+                  "});\r",
+                  "} \r",
+                  "else {\r",
+                  "pm.test(\"ProductId - 51 - ✅ Product Quantity - Zero\" , function () {\r",
+                  "    console.log(dataCount.length); }); \r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/carts",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12 Delete from cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const statusCode = pm.response.code;\r",
+                  "\r",
+                  "if (statusCode === 200) {\r",
+                  "    pm.test(\"ProductId - 51 - Deleted from Cart\", function () {\r",
+                  "        pm.response.to.have.status(200);\r",
+                  "    });\r",
+                  "} else if (statusCode === 404) {\r",
+                  "    pm.test(\"ProductId - 51 - Not Exist in Cart\", function () {\r",
+                  "        pm.response.to.have.status(404);\r",
+                  "    });\r",
+                  "} else {\r",
+                  "    pm.test(\"ProductId - 51 - Unexpected Status Code: \" + statusCode, function () {\r",
+                  "        pm.fail(\"Expected 201 or 409, but got \" + statusCode);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/carts/{{productId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "carts",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5 Shopper Address",
+      "item": [
+        {
+          "name": "13 Add a new address - addressID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"-------------------- 🛒 Shopper Address --------------------\", function () {\r",
+                  "    console.log(\"SShopper Address folder execution started\");\r",
+                  "});\r",
+                  "\r",
+                  "let body=pm.response.json();\r",
+                  "let addressID=body.data.addressId;\r",
+                  "pm.environment.set(\"addressId\", addressID);\r",
+                  "\r",
+                  "// 1st method to set environment variable directly from response body value.\r",
+                  "let addid = pm.environment.get(\"addressId\"); // Retrieve the value of the environment variable\r",
+                  "\r",
+                  "// 2nd method to set environment variable directly from response body value.\r",
+                  "// let addid = addressID; // Retrieve the value of the environment variable\r",
+                  "\r",
+                  "pm.test(\"Environment addressId created & set - ''Value = \" + addid +\"''\", function () {\r",
+                  "    pm.response.to.have.status(201); });\r",
+                  "\r",
+                  "\r",
+                  "console.log(addressID);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"addressId\": 0,\r\n  \"buildingInfo\": \"xyz\",\r\n  \"city\": \"Mumbai\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Thane\",\r\n  \"name\": \"sourabh\",\r\n  \"phone\": \"973732753\",\r\n  \"pincode\": \"432101\",\r\n  \"state\": \"MH\",\r\n  \"streetInfo\": \"SaiGarden\",\r\n  \"type\": \"Home\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/address",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "address"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14 Get all address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Get all Address\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/address",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "address"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "15 Get Single address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const statusCode = pm.response.code;\r",
+                  "\r",
+                  "if(statusCode === 200) {\r",
+                  "\r",
+                  "pm.test(\"Get Single Address\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "} else {\r",
+                  "pm.test(\"Address not found\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/address/{{addressId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "address",
+                "{{addressId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "16 Update added address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Update Added Address\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"addressId\": {{addressId}},\r\n  \"buildingInfo\": \"Dakshina\",\r\n  \"city\": \" Navi Mumbai\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Airoli\",\r\n  \"name\": \"sourabh\",\r\n  \"phone\": \"973732757\",\r\n  \"pincode\": \"400708\",\r\n  \"state\": \"MH\",\r\n  \"streetInfo\": \"sector 14\",\r\n  \"type\": \"Home\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/address/{{addressId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "address",
+                "{{addressId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "18 Delete address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const statusCode = pm.response.code;\r",
+                  "\r",
+                  "if(statusCode === 204) {\r",
+                  "\r",
+                  "pm.test(\"Address Deleted\", function () {\r",
+                  "    pm.response.to.have.status(204);\r",
+                  "});\r",
+                  "\r",
+                  "} else {\r",
+                  "pm.test(\"Address does not exist\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/address/{{addressId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "address",
+                "{{addressId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6 Shopper Order",
+      "item": [
+        {
+          "name": "19 Add product to cart Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"--------------- 🛒 Place Order ----------------\", function () {\r",
+                  "    console.log(\"Shopper Cart folder execution started\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "//let item1=body.data[1].itemId1;\r",
+                  "//pm.environment.set(\"itemId1\", item);\r",
+                  "\r",
+                  "const statusCode = pm.response.code;\r",
+                  "\r",
+                  "if (statusCode === 201) {\r",
+                  "    pm.test(\"ProductId - 51 - Added to Cart successfully\", function () {\r",
+                  "        pm.response.to.have.status(201);\r",
+                  "    });\r",
+                  "} else if (statusCode === 409) {\r",
+                  "    pm.test(\"ProductId - 51 - Already Present in Cart\", function () {\r",
+                  "        pm.response.to.have.status(409);\r",
+                  "    });\r",
+                  "} else {\r",
+                  "    pm.test(\"ProductId - 51 - Unexpected Status Code: \" + statusCode, function () {\r",
+                  "        pm.fail(\"Expected 201 or 409, but got \" + statusCode);\r",
+                  "    });\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/carts",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "20 Add a new address Copy - addressID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let body=pm.response.json();\r",
+                  "let addressID=body.data.addressId;\r",
+                  "pm.environment.set(\"addressId\", addressID);\r",
+                  "\r",
+                  "pm.test(\" Environment Created - addressId \", function () {\r",
+                  "    pm.response.to.have.status(201); });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"addressId\": 0,\r\n  \"buildingInfo\": \"xyz\",\r\n  \"city\": \"Mumbai\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Thane\",\r\n  \"name\": \"sourabh\",\r\n  \"phone\": \"973732753\",\r\n  \"pincode\": \"432101\",\r\n  \"state\": \"MH\",\r\n  \"streetInfo\": \"SaiGarden\",\r\n  \"type\": \"Home\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/address",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "address"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "21 Place order - orderId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let body=pm.response.json();\r",
+                  "let orderID=body.data.orderId;\r",
+                  "pm.environment.set(\"orderId\", orderID);\r",
+                  "\r",
+                  "pm.test(\" Environment Created - orderId \", function () {\r",
+                  "    pm.response.to.have.status(201); });\r",
+                  "\r",
+                  "pm.test(\" Order Placed \", function () {\r",
+                  "pm.response.to.have.status(201); });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"address\": {\r\n    \"addressId\": {{addressId}},\r\n    \"buildingInfo\": \"ABCD\",\r\n    \"city\": \"Mumbai\",\r\n    \"country\": \"Germany\",\r\n    \"landmark\": \"munich\",\r\n    \"name\": \"sourabh\",\r\n    \"phone\": \"973732753\",\r\n    \"pincode\": \"432101\",\r\n    \"state\": \"german\",\r\n    \"streetInfo\": \"vicecity\",\r\n    \"type\": \"Home\"\r\n  },\r\n  \"paymentMode\": \"COD\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/orders",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "22 Display order history",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Order Histoy Diplayed\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/orders",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "23 Update order status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// need shopperId and orderId to be set in the environment variables \r",
+                  "\r",
+                  "pm.test(\"Update Order Status to DELIVERED\", function () {\r",
+                  "    pm.response.to.have.status(200);})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/orders/{{orderId}}?status=DELIVERED",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "orders",
+                "{{orderId}}"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "DELIVERED"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "24 Generate Invoice",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// need shopperId and orderId to be set in the environment variables \r",
+                  "\r",
+                  "pm.test(\"Invoice Generated successfully\", function () {\r",
+                  "    pm.response.to.have.status(200);})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/shoppers/{{shopperId}}/orders/{{orderId}}/invoice",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "shoppers",
+                "{{shopperId}}",
+                "orders",
+                "{{orderId}}",
+                "invoice"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "7 Add Product Review",
+      "item": [
+        {
+          "name": "24 Add review to delivered product - reviewID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"--------------- 🛒 Place Order ----------------\", function () {\r",
+                  "    console.log(\"Shopper Cart folder execution started\");\r",
+                  "});\r",
+                  "\r",
+                  "let body=pm.response.json();\r",
+                  "let RevID=body.data.reviewId;\r",
+                  "pm.environment.set(\"reviewId\", RevID);\r",
+                  "\r",
+                  "pm.test(\" Environment Created - reviewId \", function () {\r",
+                  "    pm.response.to.have.status(200); });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"dateTime\": \"2026-06-21T11:06:07.068Z\",\r\n  \"description\": \"testing features\",\r\n  \"heading\": \"Happy Mansoon\",\r\n  \"rating\": 4,\r\n  \"shopperId\": {{shopperId}},\r\n  \"shopperName\": \"sourabh kurhade\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/reviews?productId={{productId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "25 Get all reviews of a product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Get all product reviews\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/reviews/{{productId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "reviews",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "26 Update an added review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Added review Updated successfully\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"dateTime\": \"2026-06-22T03:09:48.217Z\",\r\n  \"description\": \"testing review\",\r\n  \"heading\": \"testing\",\r\n  \"rating\": 3,\r\n  \"shopperId\": {{shopperId}},\r\n  \"shopperName\": \"sourabh kurhade\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Base_URL}}/reviews/{{reviewId}}?productId={{productId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "reviews",
+                "{{reviewId}}"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "27 Delete added review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Added review deleted successfully\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{Base_URL}}/reviews/{{reviewId}}?productId={{productId}}",
+              "host": [
+                "{{Base_URL}}"
+              ],
+              "path": [
+                "reviews",
+                "{{reviewId}}"
+              ],
+              "query": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
